@@ -1,10 +1,12 @@
+package Main;
+
 import Entity.Mascota;
 import service.MascotaService;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Main {
+public class App {
 
     //Creo el scanner global para que pueda ser llamado desde cualquier metodo
     public static final Scanner sc = new Scanner(System.in);
@@ -60,7 +62,7 @@ public class Main {
         //Ejecuto la opción elegida
         switch (op) {
             case 1 -> registrarMascota();
-            case 2 ->
+            case 2 -> buscarMicrochip();
             case 3 ->
             case 4 ->
             case 5 ->
@@ -69,14 +71,14 @@ public class Main {
 
     private static void registrarMascota() {
         //Variables
-        int chip = 0;
+        String chip = "";
         String nombre = "";
         String especie = "";
         int edad = 0;
 
         //Pido los datos y los guardo en las variales
         System.out.println("Introduce el chip: ");
-        chip = sc.nextInt();
+        chip = sc.nextLine();
 
         System.out.println("Introduce el nombre: ");
         nombre = sc.nextLine();
@@ -99,6 +101,26 @@ public class Main {
 
         //Imprimo un mensaje final
         System.out.println();
+    }
+
+    //Funcion que devuelve la mascota por su microchip
+    public static void buscarMicrochip(){
+        //Creo una nueva mascota
+        Mascota m = new Mascota();
+
+        //Pido el microchip
+        System.out.println("Introduce el numero de microchip: ");
+
+        //Guardo el chip introducido en la nueva mascota
+        m.setChip(sc.nextLine());
+
+        //Envio la nueva mascota para comprobar si el chip es correcto e imprimo la informacion
+        if(ms.buscarMicrochip(m)){
+            System.out.println(m);
+        }else{
+            System.out.println("El chip de la mascota no se encuentra registrado en la BD.\n");
+        }
+
     }
 
     //Funcion qque imprime y ejecuta el menu de opciones del modulo de veterinarios

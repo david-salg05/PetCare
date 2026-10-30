@@ -10,6 +10,13 @@ public class MascotaService {
 
     //Funcion que comprueba los requisitos para registrar una nueva mascota
     public boolean registrarMascota(Mascota m){
+        if(m.getEdad())
         return md.registrarMascota(m);
+    }
+
+    //Funcion que comprueba los requisitos de buscar la mascota por el microchip
+    public boolean buscarMicrochip(Mascota m){
+      return md.buscarMicrochip(m);
+
     }
 }

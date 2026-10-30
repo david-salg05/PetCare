@@ -4,17 +4,17 @@ public class Mascota {
 
     //Variables de cada mascota
     private int id;
-    private int chip;
+    private String chip;
     private String nombre;
     private String especie;
     private int edad;
 
     //Constructor de mascota con parámetros
-    public Mascota(int edad, String especie, String nombre, int chip) {
-        this.edad = edad;
-        this.especie = especie;
-        this.nombre = nombre;
+    public Mascota(String chip, String nombre, String especie, int edad) {
         this.chip = chip;
+        this.nombre = nombre;
+        this.especie = especie;
+        this.edad = edad;
     }
 
     //Constructor de mascota vacío
@@ -30,11 +30,11 @@ public class Mascota {
         this.id = id;
     }
 
-    public int getChip() {
+    public String getChip() {
         return chip;
     }
 
-    public void setChip(int chip) {
+    public void setChip(String chip) {
         this.chip = chip;
     }
 
