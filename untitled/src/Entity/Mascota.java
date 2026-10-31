@@ -66,11 +66,11 @@ public class Mascota {
     @Override
     public String toString() {
         return "Mascota{" +
-                "id=" + id +
-                ", chip=" + chip +
-                ", nombre='" + nombre + '\'' +
-                ", especie='" + especie + '\'' +
-                ", edad=" + edad +
+                "id= " + id +
+                ", chip= " + chip +
+                ", nombre= '" + nombre + '\'' +
+                ", especie= '" + especie + '\'' +
+                ", edad= " + edad +
                 '}';
     }
 }

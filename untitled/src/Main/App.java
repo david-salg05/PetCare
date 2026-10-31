@@ -57,26 +57,27 @@ public class App {
                 "     4. Modificar datos.\n" +
                 "     5. Eliminar mascota.\n\n");
 
-        op = comprobarValor("Introduzca el número del módulo al que desea acceder: ", 1, 5);
+        op = comprobarValor("Introduzca el número de la opción que desea ejecutar: ", 1, 5);
 
         //Ejecuto la opción elegida
         switch (op) {
             case 1 -> registrarMascota();
             case 2 -> buscarMicrochip();
-            case 3 ->
-            case 4 ->
-            case 5 ->
+            case 3 -> listarMascotas();
+            case 4 -> modificarDatos();
+            case 5 -> eliminarMascota();
         }
     }
 
+    //Funcion que pide los datos de una mascota y la registra
     private static void registrarMascota() {
         //Variables
         String chip = "";
         String nombre = "";
         String especie = "";
-        int edad = 0;
+        String edad = "";
 
-        //Pido los datos y los guardo en las variales
+        //Pido los datos y los guardo en las variables
         System.out.println("Introduce el chip: ");
         chip = sc.nextLine();
 
@@ -87,43 +88,95 @@ public class App {
         especie = sc.nextLine();
 
         System.out.println("Introduce la edad: ");
-        edad = sc.nextInt();
+        edad = sc.nextLine();
 
-        //Guardo la nueva mascota
-        Mascota m = new Mascota(chip, nombre, especie, edad);
-
-        //Envio la mascota para comprobar los requsitos de la funcion
-        if(ms.registrarMascota(m)){
+        //Envio los datos al service para comprobar los requisitos
+        if (ms.registrarMascota(chip, nombre, especie, edad)) {
             System.out.println("\nMascota registrada correctamente.\n");
-        }else{
-            System.out.println("\nLa mascota no se pudo guardar porque el chip introducido ya está registrado en la BD.\n");
+        } else {
+            System.out.println("\nLa mascota no se pudo guardar: el chip está vacío o ya registrado, o la edad no es válida.\n");
         }
-
-        //Imprimo un mensaje final
-        System.out.println();
     }
 
     //Funcion que devuelve la mascota por su microchip
-    public static void buscarMicrochip(){
-        //Creo una nueva mascota
-        Mascota m = new Mascota();
-
+    public static void buscarMicrochip() {
         //Pido el microchip
         System.out.println("Introduce el numero de microchip: ");
+        String chip = sc.nextLine();
 
-        //Guardo el chip introducido en la nueva mascota
-        m.setChip(sc.nextLine());
+        //Pido la mascota al service
+        Mascota m = ms.buscarMicrochip(chip);
 
-        //Envio la nueva mascota para comprobar si el chip es correcto e imprimo la informacion
-        if(ms.buscarMicrochip(m)){
-            System.out.println(m);
-        }else{
-            System.out.println("El chip de la mascota no se encuentra registrado en la BD.\n");
+        //Si existe imprimo su información, si no, el mensaje de error
+        if (m != null) {
+            System.out.println("\n" + m + "\n");
+        } else {
+            System.out.println("\nEl chip de la mascota no se encuentra registrado en la BD.\n");
         }
-
     }
 
-    //Funcion qque imprime y ejecuta el menu de opciones del modulo de veterinarios
+    //Funcion que lista todas las macotas registradas en la bd
+    public static void listarMascotas() {
+        ms.listarMascotas();
+    }
+
+    //funcion que modifica el nombre o la edad de la mascota
+    public static void modificarDatos() {
+
+        int op = 0;
+
+        op = comprobarValor("Qué quieres modificar: \n\t 1- Nombre\n\t 2- Edad", 1, 2);
+
+        switch (op) {
+            case 1 -> modificarNombre();
+            case 2 -> modificarEdad();
+        }
+    }
+
+    private static void modificarNombre() {
+        String chip = "";
+        String nombre = "";
+
+        System.out.println("Introduce el chip de la mascota: ");
+        chip = sc.nextLine();
+
+        System.out.println("Introduce el nuevo nombre: ");
+        nombre = sc.nextLine();
+
+        if (ms.modificarNombre(chip, nombre)) {
+            System.out.println("\nNombre modificado correctamente.\n");
+        } else {
+            System.out.println("\nNo se pudo modificar: no existe ninguna mascota con ese chip.\n");
+        }
+    }
+
+    private static void modificarEdad() {
+        System.out.println("Introduce el chip de la mascota: ");
+        String chip = sc.nextLine();
+
+        System.out.println("Introduce la nueva edad: ");
+        String edad = sc.nextLine();   // la leo como texto, valida el service
+
+        if (ms.modificarEdad(chip, edad)) {
+            System.out.println("\nEdad modificada correctamente.\n");
+        } else {
+            System.out.println("\nNo se pudo modificar: la edad no es válida o no existe ninguna mascota con ese chip.\n");
+        }
+    }
+
+    //Funcion que elimina una mascota por el chip que le paso
+    public static void eliminarMascota() {
+        System.out.println("Introduce el chip de la mascota a eliminar: ");
+        String chip = sc.nextLine();
+
+        if (ms.eliminarMascota(chip)) {
+            System.out.println("\nMascota eliminada correctamente.\n");
+        } else {
+            System.out.println("\nNo se pudo eliminar: no existe ninguna mascota con ese chip.\n");
+        }
+    }
+
+    //Funcion que imprime y ejecuta el menu de opciones del modulo de veterinarios
     public static void moduloVeterinarios() {
         //Variables
         int op = 0;
@@ -136,19 +189,19 @@ public class App {
                 "     4. Modificar especialidad.\n" +
                 "     5. Eliminar veterinario.\n");
 
-        op = comprobarValor("Introduzca el número del módulo al que desea acceder: ", 1, 5);
+        op = comprobarValor("Introduzca el número de la opción que desea ejecutar: ", 1, 5);
 
         //Ejecuto la opción elegida
         switch (op) {
-            case 1 ->
-            case 2 ->
-            case 3 ->
-            case 4 ->
-            case 5 ->
+            //case 1 ->
+            //case 2 ->
+            //case 3 ->
+            //case 4 ->
+            //case 5 ->
         }
     }
 
-    //Funcion para comprobar que los valores introducidos estean en el rango y sean un numero
+    //Funcion para comprobar que los valores introducidos esten en el rango y sean un numero
     public static int comprobarValor(String mensaje, int min, int max) {
         int res = 0;
 
@@ -156,6 +209,7 @@ public class App {
             try {
                 System.out.println(mensaje);
                 res = sc.nextInt();
+                sc.nextLine();   // limpio el salto de línea que deja nextInt
 
                 if (res < min || res > max) {
                     System.out.println("El numero debe estar entre " + min + " y " + max);
