@@ -38,6 +38,7 @@ public class MascotaService {
 
     //Funcion que devuelve la mascota con el chip indicado, o null si no existe
     public Mascota buscarMicrochip(String chip) {
+
         return md.buscarMicrochip(chip.trim());
     }
 

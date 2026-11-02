@@ -1,7 +1,9 @@
 package Main;
 
 import Entity.Mascota;
+import Entity.Veterinario;
 import service.MascotaService;
+import service.VeterinarioService;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -13,6 +15,9 @@ public class App {
 
     //Variable global para comprobar los requisitos de cada mascota
     public static final MascotaService ms = new MascotaService();
+
+    //Variable global para comprobar los requisitos de cada veterinario
+    public static final VeterinarioService vs = new VeterinarioService();
 
     public static void main(String[] args) {
 
@@ -94,7 +99,7 @@ public class App {
         if (ms.registrarMascota(chip, nombre, especie, edad)) {
             System.out.println("\nMascota registrada correctamente.\n");
         } else {
-            System.out.println("\nLa mascota no se pudo guardar: el chip está vacío o ya registrado, o la edad no es válida.\n");
+            System.out.println("\nLa mascota no se pudo guardar: el chip está vacío, ya registrado, o la edad no es válida.\n");
         }
     }
 
@@ -193,11 +198,88 @@ public class App {
 
         //Ejecuto la opción elegida
         switch (op) {
-            //case 1 ->
-            //case 2 ->
-            //case 3 ->
-            //case 4 ->
-            //case 5 ->
+            case 1 -> registrarVeterinario();
+            case 2 -> buscarColegiado();
+            case 3 -> listarVeterinarios();
+            case 4 -> modificarEspecialidad();
+            case 5 -> eliminarVeterinario();
+        }
+    }
+
+    //Funcion que registra a veterinarios
+    public static void registrarVeterinario(){
+        //Variables
+        String numColegiado = "";
+        String nombre = "";
+        String especialidad = "";
+
+        //Pido los datos y los guardo en las variables
+        System.out.println("Introduce el numero de colegiado: ");
+        numColegiado = sc.nextLine();
+
+        System.out.println("Introduce el nombre: ");
+        nombre = sc.nextLine();
+
+        System.out.println("Introduce la especialidad: ");
+        especialidad = sc.nextLine();
+
+        //Envio los datos al service para comprobar los requisitos
+        if (vs.registrarVeterinario(numColegiado, nombre, especialidad)) {
+            System.out.println("\nVeterinario registrado correctamente.\n");
+        } else {
+            System.out.println("\nEl veterinario no se pudo guardar: el numero de colegiado está vacío o ya registrado.\n");
+        }
+    }
+
+    //Funcion que devuelve el veterinario por su mnumero de colegiado
+    public static void buscarColegiado() {
+        //Pido el numero de colegiado
+        System.out.println("Introduce el numero de colegiado: ");
+        String numColegiado = sc.nextLine();
+
+        //Pido el veterinario al service
+        Veterinario v = vs.buscarColegiado(numColegiado);
+
+        //Si existe imprimo su información, si no, el mensaje de error
+        if (v != null) {
+            System.out.println("\n" + v + "\n");
+        } else {
+            System.out.println("\nEl numero de colegiado del veterinario no se encuentra registrado en la BD.\n");
+        }
+    }
+
+    //Funcion que lista todos los veterinarios registrados en la bd
+    public static void listarVeterinarios() {
+        vs.listarVeterinarios();
+    }
+
+    //Funcion que modifica la especialidad de un veterinario
+    private static void modificarEspecialidad() {
+        String numColegiado = "";
+        String especialidad = "";
+
+        System.out.println("Introduce el numero de colegiado del veterinario: ");
+        numColegiado = sc.nextLine();
+
+        System.out.println("Introduce la nueva especialidad: ");
+        especialidad = sc.nextLine();
+
+        if (vs.modificarEspecialidad(numColegiado, especialidad)) {
+            System.out.println("\nEspecialidad modificada correctamente.\n");
+        } else {
+            System.out.println("\nNo se pudo modificar: no existe ningun veterinario con ese numero de colegiado.\n");
+        }
+    }
+
+    //Funcion que elimina un veterinario por el numero de colegiado que le paso
+    public static void eliminarVeterinario() {
+        System.out.println("Introduce el numero de colegiado del veterinario a eliminar: ");
+        String numColegiado = sc.nextLine();
+
+        if (vs.eliminarVeterinario(numColegiado)) {
+            System.out.println("\nVeterinario eliminado correctamente.\n");
+        } else {
+            System.out.println("\nNo se pudo eliminar: no existe ningun veterinario con ese numero de colegiado.\n");
         }
     }
 

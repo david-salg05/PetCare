@@ -112,7 +112,7 @@ public class MascotaDAO {
 
         for (Mascota m : mascotas) {
             if (m.getChip().equalsIgnoreCase(chip)) {
-                //La he encontrado: cambio el nombre, guardo y cierro
+                //cambio el nombre, guardo y cierro
                 m.setNombre(nombre);
                 bd.store(m);
                 bd.commit();
@@ -121,7 +121,7 @@ public class MascotaDAO {
             }
         }
 
-        //Si llego aquí no existe ninguna mascota con ese chip
+        //no existe ninguna mascota con ese chip
         bd.close();
         return false;
     }
@@ -160,7 +160,7 @@ public class MascotaDAO {
 
         for (Mascota m : mascotas) {
             if (m.getChip().equalsIgnoreCase(chip)) {
-                //La he encontrado: la elimino, confirmo y cierro
+                //la elimino, confirmo y cierro
                 bd.delete(m);
                 bd.commit();
                 bd.close();
@@ -168,7 +168,7 @@ public class MascotaDAO {
             }
         }
 
-        //Si llego aquí no existe ninguna mascota con ese chip
+        //no existe ninguna mascota con ese chip
         bd.close();
         return false;
     }

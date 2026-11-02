@@ -9,8 +9,7 @@ public class Veterinario {
     private String especialidad;
 
     //Constructor de veterinario con parámetros
-    public Veterinario(int id, String numColegiado, String nombre, String especialidad) {
-        this.id = id;
+    public Veterinario(String numColegiado, String nombre, String especialidad) {
         this.numColegiado = numColegiado;
         this.nombre = nombre;
         this.especialidad = especialidad;
